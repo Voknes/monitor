@@ -1,0 +1,299 @@
+{% extends 'app/base.html' %}
+
+{% block main_section %}
+
+
+
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-4 text-gray-800 text-center">Начало работы</h1>
+
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+    
+          <div class="col-12 col-xl-6 col-lg-8 col-md-8">
+    
+            <div class="card border-0 shadow-lg">
+              <div class="card-body p-2">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                  <div class="col-lg-12">
+                  <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+src="https://www.openstreetmap.org/export/embed.html?bbox=82.890%2C54.988%2C82.890%2C54.988&amp;layer=mapnik&amp;marker=54.988%2C82.890" 
+style="border: 1px solid black"></iframe>
+                      <div class="control">
+                        <a href="#" id="take-photo" title="Сделать фото"><i class="fas fa-street-view"></i></a>
+                      </div>
+                      <form method="POST" id="post-form">
+                      {% csrf_token %}
+
+                        {% for field in form %}
+                            
+                        {{ field.errors }}
+                        {{ field }}
+                    
+                        {% endfor %}
+
+
+                       {% comment %} <button type="submit" class="btn btn-primary">Отправить</button>
+                       <button id='again' type="button" class="btn btn-primary">Заменить фото</button> {% endcomment %}
+                    </form>
+                        <div id="latitude">0</div>
+                        <div id="longitude">0</div>
+                    {% comment %} <div class="camera-app">
+
+
+
+                      <!-- <button class="camera">Start streaming</button> -->
+                      <video style="border-radius: .35rem;" id="video" width="100%" playsinline autoplay></video>
+                      <canvas id="canvas"></canvas>
+                      <!-- <img width="100%" id="photo" src="" alt=""> -->
+                      <div class="control">
+                        <a href="#" id="take-photo" title="Сделать фото"><i class="fas fa-camera"></i></a>
+                      </div>
+                      
+                    </div> {% endcomment %}
+                    {% comment %} <form method="POST" id="post-form">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        {% for field in form %}
+                            
+                        {{ field.errors }}
+                        {{ field }}
+                    
+                        {% endfor %}
+                        <img width="100%" id="photo" src="" alt="">
+                        <div id="latitude">0</div>
+                        <div id="longitude">0</div>
+                      </div>
+                       <button type="submit" class="btn btn-primary">Отправить</button>
+                       <button id='again' type="button" class="btn btn-primary">Заменить фото</button>
+                    </form> {% endcomment %}
+               
+                    <p class="no-support disabled">Ошибка определения местоположения</p>
+                    
+                  </div>
+
+
+
+<div class="tests"></div>
+                </div>
+              </div>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+
+</div>
+
+
+{% endblock main_section %}
+
+{% block static_section %}
+
+
+
+<script>
+
+{% comment %} $(document).on('submit', '#post-form',function(e){
+    $.ajax({
+        type:'POST',
+        url:'{% url "check-in" %}',
+        data:{
+            latitude: 55.55,
+            longitude: 55.55,
+            // latitude: parseFloat($('#latitude').text()),
+            // longitude: parseFloat($('#longitude').text()),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+            // document.getElementById("post-form").reset();
+            $(".tests").prepend('<div class="col-md-6">'+
+                '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
+                    '<div class="col p-4 d-flex flex-column position-static">' +
+                        '<h3 class="mb-0">' + json.latitude + '</h3>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' 
+            )
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+}); {% endcomment %}
+
+
+{% comment %} $(document).on('submit', '#post-form',function(e){
+    $.ajax({
+        type:'POST',
+        url:'{% url "check-in" %}',
+        data:{
+            //latitude: 55.55,
+            //longitude: 55.55,
+            latitude: parseFloat($('#latitude').text()),
+            longitude: parseFloat($('#longitude').text()),
+            img: $('#photo').attr('src'),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+            // document.getElementById("post-form").reset();
+            $(".tests").prepend('<div class="col-md-6">'+
+                '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
+                    '<div class="col p-4 d-flex flex-column position-static">' +
+                        '<h3 class="mb-0">' + json.latitude + '</h3>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' 
+            )
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+}); {% endcomment %}
+
+var findMeButton = $('#take-photo');
+
+// Check if the browser has support for the Geolocation API
+if (!navigator.geolocation) {
+
+//   findMeButton.addClass("disabled");
+
+$('.no-support').removeClass('disabled');
+
+
+} else {
+
+  findMeButton.on('click', function(e) {
+
+    e.preventDefault();
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+      // Get the coordinates of the current possition.
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+
+      $('#latitude').text(lat.toFixed(3));
+      $('#longitude').text(lng.toFixed(3));
+
+
+    });
+
+  });
+
+}
+
+
+
+
+
+
+
+
+  {% comment %} document.addEventListener("DOMContentLoaded", async (e) => {
+try {
+const stream = await navigator.mediaDevices.getUserMedia({
+  video: {
+width: 400,
+}
+})  
+document.querySelector('video').srcObject = stream
+} catch(e) {
+console.error(e);
+console.log('не работает');
+}
+})
+
+document.getElementById("take-photo").addEventListener("click", function() {
+var hidden_canvas = document.getElementById('canvas'),
+video = document.getElementById('video'),
+image = document.getElementById('photo'),
+
+// Получаем размер видео элемента.
+width = video.videoWidth,
+height = video.videoHeight,
+
+// Объект для работы с canvas.
+context = hidden_canvas.getContext('2d');
+
+
+// Установка размеров canvas идентичных с video.
+hidden_canvas.width = width;
+hidden_canvas.height = height;
+context.drawImage(video, 0, 0, width, height);
+// Преобразование кадра в изображение dataURL.
+var imageDataURL = hidden_canvas.toDataURL('image/jpeg');
+
+// Помещение изображения в элемент img.
+image.setAttribute('src', imageDataURL);
+
+
+$('.camera-app').addClass('disabled');
+$('#photo').removeClass('disabled');
+
+
+// });
+
+}); {% endcomment %}
+{% comment %} document.getElementById("again").addEventListener("click", function() {
+
+
+  $('.camera-app').removeClass('disabled');
+  $('#photo').addClass('disabled');
+
+
+// });
+
+}); {% endcomment %}
+// Отрисовка текущего кадра с video в canvas.
+
+
+{% comment %} var findMeButton = $('#take-photo');
+
+// Check if the browser has support for the Geolocation API
+if (!navigator.geolocation) {
+
+//   findMeButton.addClass("disabled");
+$('.coordinates').addClass('disabled');
+$('.no-support').removeClass('disabled');
+
+
+} else {
+
+  findMeButton.on('click', function(e) {
+
+    e.preventDefault();
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+      // Get the coordinates of the current possition.
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+
+      $('#latitude').text(lat.toFixed(3));
+      $('#longitude').text(lng.toFixed(3));
+
+
+    });
+
+  });
+
+} {% endcomment %}
+
+
+
+
+
+</script>
+{% endblock static_section %}

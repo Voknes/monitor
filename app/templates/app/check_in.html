@@ -1,0 +1,120 @@
+{% extends 'app/base.html' %}
+{% block main_section %}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-5 text-gray-800 text-center">Нажмите на кнопку, если прибыли на адрес</h1>
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+    
+          <div class="col-12 col-xl-6 col-lg-8 col-md-8">
+    
+            <div class="card border-0 shadow-lg">
+
+              <div class="card-body p-2">
+
+                <div class="row">
+                  <div class="col-lg-12">
+
+                <!-- MAP -->
+                <div class="map"></div>
+
+
+                <!-- Button -->
+                <div class="control">
+                  <a href="#" class="location" title="Check-in"><i class="fas fa-street-view"></i></a>
+                </div>
+                <!-- <div class="card mb-4 py-3 border-bottom-primary">
+                  <div class="card-body">
+                    Нажмите на кнопку, если прибыли на адрес:
+                  </div>
+                </div> -->
+
+                <!-- Form -->
+                      <!-- <form method="POST" id="post-form">
+
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                        {{ field.errors }}
+                        {{ field }}
+                        {% endfor %}
+
+                      </form> -->
+
+                <!-- Show results -->
+                        <!-- <div class="latitude"></div>
+                        <div class="longitude"></div> -->
+                        
+                        <p class="no-support disabled">Ошибка определения местоположения</p>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+</div>
+
+
+{% endblock main_section %}
+
+{% block static_section %}
+<script>
+  
+$('.checkin-item').addClass('active');
+
+var findMeButton = $('.location');
+
+// Check if the browser has support for the Geolocation API
+if (!navigator.geolocation) {
+  $('.no-support').removeClass('disabled');
+
+} else {
+  findMeButton.on('click', function(e) {
+
+    e.preventDefault();
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+      findMeButton.addClass('disabled');
+      // Get the coordinates of the current possition.
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+      
+      $(".map").html('<iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox='+lng+'%2C'+lat+'%2C'+lng+'%2C'+lat+'&amp;layer=mapnik&amp;marker='+lat+'%2C'+lng+'" style="border: 1px solid black"></iframe>');
+      // $('.latitude').text(lat.toFixed(3));
+      // $('.longitude').text(lng.toFixed(3));
+
+      sendToServer(lat, lng);
+
+    });
+
+  });
+}
+
+function sendToServer(lat, lng){
+                console.log(lat);
+                console.log(lng);
+                $.ajax({
+                    url:"/home/savecheck",
+                    type:"POST",
+                    data:{lat:lat,lng:lng},
+                })
+                .done(function(response){
+                    console.log(response);
+                })
+                .fail(function(){
+                   console.log("Error Occured");
+                });
+
+            }
+
+
+</script>
+{% endblock static_section %}

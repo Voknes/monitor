@@ -1,0 +1,516 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Monitoring</title>
+    <link href="{% static 'app/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'app/sb-admin-2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app/app.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'app/favicon.png' %}"/>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+            <!-- Sidebar -->
+    <ul class="navbar-nav bg-custom sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+          <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="sidebar-brand-text mx-3">Monitoring</div>
+        </a>
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+  
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item home-item">
+          <a class="nav-link" href="{% url 'home' %}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Панель</span></a>
+        </li>
+  
+        <!-- Divider -->
+
+  
+        <!-- Heading -->
+        <!-- <div class="sidebar-heading">
+          Interface
+        </div> -->
+  
+        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Components</span>
+          </a>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Custom Components:</h6>
+              <a class="collapse-item" href="buttons.html">Buttons</a>
+              <a class="collapse-item" href="cards.html">Cards</a>
+            </div>
+          </div>
+        </li> -->
+  
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <!-- <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Utilities</span>
+          </a>
+          <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Custom Utilities:</h6>
+              <a class="collapse-item" href="utilities-color.html">Colors</a>
+              <a class="collapse-item" href="utilities-border.html">Borders</a>
+              <a class="collapse-item" href="utilities-animation.html">Animations</a>
+              <a class="collapse-item" href="utilities-other.html">Other</a>
+            </div>
+          </div>
+        </li> -->
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+  
+        <!-- Heading -->
+        <!-- <div class="sidebar-heading">
+          Addons
+        </div> -->
+  
+        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Login Screens:</h6>
+              <a class="collapse-item" href="login.html">Login</a>
+              <a class="collapse-item" href="register.html">Register</a>
+              <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+              <div class="collapse-divider"></div>
+              <h6 class="collapse-header">Other Pages:</h6>
+              <a class="collapse-item" href="404.html">404 Page</a>
+              <a class="collapse-item" href="blank.html">Blank Page</a>
+            </div>
+          </div>
+        </li> -->
+        {% if request.user.groups.all.0.name == 'supervisor' %}
+        <!-- Nav Item - Отчеты -->
+        <li class="nav-item reports-item">
+          <a class="nav-link" href="{% url 'report-view' %}">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Отчеты</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <!-- Nav Item - Tables -->
+        <li class="nav-item reg-item">
+          <a class="nav-link" href="{% url 'reg' %}">
+            <i class="fas fa-user-plus"></i>
+            <span>Регистрация сотрудника</span></a>
+        </li>
+
+        <hr class="sidebar-divider my-0">
+        <!-- Nav Item - Tables -->
+        <li class="nav-item timetableview-item">
+          <a class="nav-link" href="{% url 'super-timetable' %}">
+            <i class="fas fa-calendar-alt"></i>
+            <span>График выходов</span></a>
+        </li>
+
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item checkshow-item">
+          <a class="nav-link" href="{% url 'check-show' %}">
+            <i class="fas fa-street-view"></i>
+            <span>Посмотреть чекины</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item rating-input-item">
+          <a class="nav-link" href="{% url 'rating-input' %}">
+            <i class="fas fa-star"></i>
+            <span>Обновление рейтинга</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item tarifsadd-item">
+          <a class="nav-link" href="{% url 'tarifs-add' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Тарифы</span></a>
+        </li>
+        <hr class="sidebar-divider d-none d-md-block">
+
+        {% else %}
+        
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item reportadd-item">
+          <a class="nav-link" href="{% url 'report-add' %}">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Добавить отчет</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item tarifsshow-item">
+          <a class="nav-link" href="{% url 'tarifs-show' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Тарифы</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item rating-item">
+          <a class="nav-link" href="{% url 'rating' %}">
+            <i class="fas fa-star"></i>
+            <span>Рейтинг</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item timetableview-item">
+          <a class="nav-link" href="{% url 'user-timetable' request.user %}">
+            <i class="fas fa-calendar-alt"></i>
+            <span>График работы</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item checkin-item">
+          <a class="nav-link" href="{% url 'check-in' %}">
+            <i class="fas fa-street-view"></i>
+            <span>Чек-ин</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item suggest-item">
+          <a class="nav-link" href="{% url 'suggest' %}">
+            <i class="fas fa-building"></i>
+            <span>Выбрать адрес</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+        {% endif %}
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+  
+      </ul>
+      <!-- End of Sidebar -->
+
+          <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+  
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+  
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+  
+            <!-- Topbar Search -->
+
+  
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+  
+              <!-- Nav Item - Alerts -->
+              {% comment %} <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-bell fa-fw"></i>
+                  <!-- Counter - Alerts -->
+                  <span class="badge badge-danger badge-counter">1+</span>
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                  <h6 class="dropdown-header">
+                    Центр уведомлений
+                  </h6>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">December 12, 2019</div>
+                      <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-success">
+                        <i class="fas fa-donate text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">December 7, 2019</div>
+                      $290.29 has been deposited into your account!
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-warning">
+                        <i class="fas fa-exclamation-triangle text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">December 2, 2019</div>
+                      Spending Alert: We've noticed unusually high spending for your account.
+                    </div>
+                  </a>
+                  <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                </div>
+              </li> {% endcomment %}
+  
+              <div class="topbar-divider d-none d-sm-block"></div>
+  
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-lg-inline text-gray-600 small">{{ request.user }}</span>
+                  <i class="fas fa-user fa-fw"></i>
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Выйти
+                  </a>
+                </div>
+              </li>
+  
+            </ul>
+  
+          </nav>
+          <!-- End of Topbar -->
+  
+          <!-- Begin Page Content -->
+
+          {% block main_section %}
+          {% endblock main_section %}
+
+          <!-- /.container-fluid -->
+  
+        </div>
+        <!-- End of Main Content -->
+  
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Monitoring 2020</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+  
+      </div>
+      <!-- End of Content Wrapper -->
+
+
+    <!-- <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarsExample03">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Тарифы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Рейтинг</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Теги</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                <a class="dropdown-item" href="#">ЗП</a>
+                <a class="dropdown-item" href="#">Ограничение</a>
+                <a class="dropdown-item" href="#">Важное</a>
+                </div>
+            </li>
+            </ul>
+        </div>
+        <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            <a href="{% url 'exit' %}" class="btn btn-outline-secondary">Выйти</a>
+            {% else %}
+            <a href="#" class="btn btn-outline-secondary">Вы не авторизованы</a>
+            {% endif %}
+        </div>
+    </nav> -->
+
+    <!-- <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        <b>{{ user.username }}</b> <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'suggest' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        Адрес объекта
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'check-in' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        Начало работы
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'report-view' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        Отчеты
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'timetable' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                                График работы
+                            </a>
+                            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        Новости
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        Селфи
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'reg' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        Регистрация
+                        </a>
+                    </li>
+                    </ul>
+                
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Сохранненые отчеты</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Текуший месяц
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Последняя четверть
+                        </a>
+                    </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            {% if messages %}
+            {% for mess in messages %}
+                <div class="alert alert-success">
+                    {{ mess }}
+                </div>
+            {% endfor %}
+            {% endif %}
+
+           
+            </main>
+        </div>
+    </div> -->
+
+
+    </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Хотите выйти?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Подтвердите выход</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
+          <a class="btn btn-primary" href="{% url 'exit' %}">Выйти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+  
+
+    <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'app/jquery.min.js' %}"></script>
+  <script src="{% static 'app/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'app/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'app/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'app/Chart.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+
+  
+  <script src="{% static 'app/js.cookie.js' %}"></script>
+  <script>
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    // $(document).ready(function(){
+
+    //   {% block domready %}{% endblock %}
+    // });
+  </script>
+  <!-- <script src="{% static 'app/chart-area-demo.js' %}"></script> -->
+  <!-- <script src="{% static 'app/chart-pie-demo.js' %}"></script> -->
+  <script src="{% static 'app/app.js' %}"></script>
+
+  {% block static_section %}
+  {% endblock static_section %}
+</body>
+</html>
+
+

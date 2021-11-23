@@ -1,0 +1,76 @@
+{% extends 'app/base.html' %}
+
+{% block main_section %}
+
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-4 text-gray-800 text-center">Рейтинг</h1>
+
+<!-- DataTales Example -->
+  <div class="card shadow mb-4">
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Сотрудник</th>
+              <th>План ШПД</th>
+              <th>Факт ШПД</th>
+              <th>План роутеры</th>
+              <th>Активно роутеры</th>
+              <th>План приставки</th>
+              <th>Активно приставки</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Сотрудник</th>
+              <th>План ШПД</th>
+              <th>Факт ШПД</th>
+              <th>План роутеры</th>
+              <th>Активно роутеры</th>
+              <th>План приставки</th>
+              <th>Активно приставки</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for rating in ratings %}
+            <tr>
+              <td>{{ rating.author }}</td>
+              <td>{{ rating.plan_shpd }}</td>
+              <td>{{ rating.faсt_shpd }}</td>
+              <td>{{ rating.plan_rout }}</td>
+              <td>{{ rating.faсt_rout }}</td>
+              <td>{{ rating.plan_pr }}</td>
+              <td>{{ rating.faсt_pr }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a href="?page=1" class="btn btn-outline-warning">Начало</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-warning">Пред</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-warning">След</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-warning">Конец</a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock main_section %}
+
+{% block static_section %}
+<script>
+
+$('.rating-item').addClass('active');
+
+</script>
+{% endblock static_section %}

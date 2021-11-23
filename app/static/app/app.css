@@ -1,0 +1,115 @@
+.bg-custom {
+    background-color: #0072ba;
+    background-size: cover;
+  }
+
+.text-custom {
+    color: #0072ba!important;
+}
+
+.border-left-custom {
+    border-left: .25rem solid #aed424!important;
+  }
+
+.btn-custom-green {
+    color: #fff;
+    background-color: #aed424;
+    border-color: #aed424;
+}
+
+.disabled {
+    display: none;
+}
+
+.card-scale:hover {
+    text-decoration: none;
+}
+
+.decor-none:hover {
+    text-decoration: none;
+}
+
+.card-scale > div:hover {
+    transform: scale(1.06);
+    transition: transform .2s;
+}
+
+.card-scale > div {
+    transition: transform .3s;
+}
+
+/* .camera-app {
+    width: 100%;
+    position: relative;
+    line-height: 0;
+} */
+
+/* .camera-app img#photo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    /* display: none;
+} */
+
+.control{
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20; */
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 10px;
+
+}
+
+.control a{
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #4e73df;
+    text-decoration: none;
+    padding: 20px;
+    line-height: 0;
+    opacity: 1;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.location i{
+    font-size: 60px;
+}
+
+.control a:hover{
+    opacity: 0.7;
+}
+
+/* .camera-app .control a.disabled{
+    background-color: #555;
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+.camera-app .control a.disabled:hover{
+    opacity: 0.5;
+} */
+
+
+
+/* .camera-app canvas{
+    display: none;
+} */
+
+/* .app video#video.visible,
+.app img#photo.visible {
+    display: block;
+} */
+
+/* .camera-app .control.visible{
+    display: flex;
+} */
